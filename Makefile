@@ -44,7 +44,7 @@ TGUI_OBJS=$(patsubst $(GUI_DIR)/%.c, $(TOBJ_DIR)/%.o, $(GUI_SRCS))
 LIB_TETRIS=$(LIB_DIR)/libtetris.a
 TLIB_TETRIS=$(LIB_DIR)/libtetristest.a
 LIB_DIR_LINK=-L$(LIB_DIR)
-DISTFILE=$(PROJECT_NAME)-$(PROJECT_VER).tar.gz
+DISTFILE=$(PROJECT_NAME)-$(PROJECT_VER).${shell uname -m}.tar.gz
 
 # Документация
 HTML_DOC=$(HTML_DOC_DIR)/index.html
@@ -170,10 +170,6 @@ clean-test-obj:
 clean-test-lib:
 	@if test -f $(TLIB_TETRIS); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление тестовой статической библиотеки движка${RESET}\n"; $(RM) $(TLIB_TETRIS); fi
 
-# Очистка каталога установки
-clean-bin:
-	@if test -d $(BIN_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление каталога установки${RESET}\n"; $(RM) $(BIN_DIR); fi
-
 # Очистка библиотек
 clean-lib:
 	@if test -d $(LIB_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление каталога библиотек${RESET}\n"; $(RM) $(LIB_DIR); fi
@@ -186,13 +182,10 @@ clean-obj:
 clean-dist:
 	@if test -f "$(DISTFILE)"; then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление старого архива $(DISTFILE)${RESET}\n"; $(RM) $(DISTFILE); fi
 
-clean: clean-test clean-test-obj clean-test-lib clean-obj clean-exec
+clean: clean-test clean-test-obj clean-test-lib clean-obj
 
 # Пересборка
 rebuild: clean all
-
-# Удаление установленного исполняемого файла
-uninstall: clean-bin clean-lib
 
 $(GCOV_REPORT): $(REPORT_DIR)
 	@printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Генерация отчёта о покрытии тестов${RESET}\n"
@@ -221,12 +214,14 @@ dvi: $(HTML_DOC)
 	$(G)$(OPEN_CMD) $(HTML_DOC)
 
 # Создание tar архива
-dist: clean-dist install $(HTML_DOC)
+dist: clean-dist build
 	@printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Создание архива $(DISTFILE)${RESET}\n"
-	$(G)tar -czf $(DISTFILE) bin doc Makefile README.md libs headers tests gui brick_game
+	$(G)cp src/engine.h engine.h
+	$(G)tar -czf $(DISTFILE) $(LIB_DIR) engine.h
+	$(G)rm engine.h
 
 # Полная чистка
-purge: clean uninstall clean-report clean-doc clean-dist 
+purge: clean clean-lib clean-report clean-doc clean-dist 
 
 # Полная сборка (все цели)
 everything: all $(GCOV_REPORT) $(HTML_DOC) dist
