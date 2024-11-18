@@ -10,16 +10,15 @@ PIPE=>/dev/null 2>&1
 G=@
 
 RM=rm -rf
-CFLAGS+=-Wall -Werror -Wextra -pedantic -std=c11 -Iheaders -O2 -fPIC
+CFLAGS+=-Wall -Werror -Wextra -pedantic -std=c11 -Isrc -O2 -fPIC
 CLIBS=-lbrick -lncurses
 TEST_LIBS=-lcheck -lbricktest -lncurses -lgcov -lm -lsubunit
 COV_FLAGS=-fprofile-arcs -ftest-coverage
 
 # Папки
-OBJ_DIR=objects
-TOBJ_DIR=objects/test
-BRICK_DIR=brick_game/tetris
-GUI_DIR=gui/cli
+OBJ_DIR=obj
+TOBJ_DIR=$(OBJ_DIR)/test
+TETRIS_DIR=src/tetris
 LIB_DIR=libs
 TEST_DIR=tests
 REPORT_DIR=report
@@ -27,24 +26,23 @@ BIN_DIR=bin
 HTML_DOC_DIR=doc/html
 
 # Исходные файлы
-BRICK_SRCS=$(wildcard $(BRICK_DIR)/*.c)
+TETRIS_SRCS=$(wildcard $(TETRIS_DIR)/*.c)
 GUI_SRCS=$(wildcard $(GUI_DIR)/*.c)
 TEST_SRCS=$(wildcard $(TEST_DIR)/*.c)
 
 # Объектные файлы
-BRICK_OBJS=$(patsubst $(BRICK_DIR)/%.c, $(OBJ_DIR)/%.o, $(BRICK_SRCS))
+TETRIS_OBJS=$(patsubst $(TETRIS_DIR)/%.c, $(OBJ_DIR)/%.o, $(TETRIS_SRCS))
 GUI_OBJS=$(patsubst $(GUI_DIR)/%.c, $(OBJ_DIR)/%.o, $(GUI_SRCS))
 MAIN_OBJ=$(patsubst %.c, $(OBJ_DIR)/%.o, $(MAIN_SRCS))
 
 # Объектные файлы тестов
 TEST_OBJS=$(patsubst $(TEST_DIR)/%.c, $(TOBJ_DIR)/%.o, $(TEST_SRCS))
-TBRICK_OBJS=$(patsubst $(BRICK_DIR)/%.c, $(TOBJ_DIR)/%.o, $(BRICK_SRCS))
+TTETRIS_OBJS=$(patsubst $(TETRIS_DIR)/%.c, $(TOBJ_DIR)/%.o, $(TETRIS_SRCS))
 TGUI_OBJS=$(patsubst $(GUI_DIR)/%.c, $(TOBJ_DIR)/%.o, $(GUI_SRCS))
 
 # Исполняемый файл и библиотеки
-EXEC=$(PROJECT_NAME)
-LIB_BRICK=$(LIB_DIR)/libbrick.a
-TLIB_BRICK=$(LIB_DIR)/libbricktest.a
+LIB_TETRIS=$(LIB_DIR)/libtetris.a
+TLIB_TETRIS=$(LIB_DIR)/libtetristest.a
 LIB_DIR_LINK=-L$(LIB_DIR)
 DISTFILE=$(PROJECT_NAME)-$(PROJECT_VER).tar.gz
 
@@ -79,10 +77,12 @@ ifneq ($(DOXYPATH),)
 DOXYGEN=$(DOXYPATH)
 endif
 
-.PHONY: test
+.PHONY: test libs
 
 # Правило по умолчанию
-all: test install
+all: test libs
+
+libs: $(LIB_TETRIS)
 
 # Создание директорий для объектных файлов, библиотек и исполняемого файла
 $(OBJ_DIR):
@@ -100,22 +100,17 @@ $(TOBJ_DIR):
 $(BIN_DIR):
 	@if test ! -d $(BIN_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога исполняемого файла${RESET}\n"; mkdir -p $(BIN_DIR); fi
 
-# Сборка исполняемого файла
-$(EXEC): $(OBJ_DIR) $(MAIN_OBJ) $(GUI_OBJS) $(LIB_DIR) $(LIB_BRICK)
-	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка исполняемого файла $@${RESET}\n"
-	$(G)$(CC) $(CFLAGS) -o $@ $(MAIN_OBJ) $(GUI_OBJS) $(LIB_DIR_LINK) $(CLIBS)
-
 # Сборка тестов
-test: $(TOBJ_DIR) $(LIB_DIR) $(TGUI_OBJS) $(TLIB_BRICK) $(TEST_OBJS)
+test: $(TOBJ_DIR) $(LIB_DIR) $(TGUI_OBJS) $(TLIB_TETRIS) $(TEST_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка тестов${RESET}\n"
 	$(G)$(CC) $(CFLAGS) $(COV_FLAGS) -o $@ $(TEST_OBJS) $(TGUI_OBJS) $(LIB_DIR_LINK) $(TEST_LIBS)
 	@printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Запуск тестов${RESET}\n"
 	$(G)./$@
 
 # Создание статической библиотеки движка
-$(LIB_BRICK): $(BRICK_OBJS)
+$(LIB_TETRIS): $(LIB_DIR) $(OBJ_DIR) $(TETRIS_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка статической библиотеки движка $(notdir $@)${RESET}\n"
-	$(G)$(AR) $@ $^
+	$(G)$(AR) $@ $(TETRIS_OBJS)
 
 # Создание статической библиотеки GUI
 $(LIB_GUI_OBJ): $(GUI_OBJS)
@@ -123,7 +118,7 @@ $(LIB_GUI_OBJ): $(GUI_OBJS)
 	$(G)$(AR) $@ $^
 
 # Компиляция объектных файлов
-$(OBJ_DIR)/%.o: $(BRICK_DIR)/%.c
+$(OBJ_DIR)/%.o: $(TETRIS_DIR)/%.c
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Компиляция $(notdir $<)${RESET}\n"
 	$(G)$(CC) $(CFLAGS) -c $< -o $@
 
@@ -136,7 +131,7 @@ $(OBJ_DIR)/%.o: %.c
 	$(G)$(CC) $(CFLAGS) -c $< -o $@
 
 # Создание статической библиотеки движка для тестов
-$(TLIB_BRICK): $(TBRICK_OBJS)
+$(TLIB_TETRIS): $(TTETRIS_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка тестовой статической библиотеки движка $(notdir $@)${RESET}\n"
 	$(G)$(AR) $@ $^
 
@@ -146,7 +141,7 @@ $(TLIB_GUI_OBJ): $(TGUI_OBJS)
 	$(G)$(AR) $@ $^
 
 # Компиляция объектных файлов для тестов
-$(TOBJ_DIR)/%.o: $(BRICK_DIR)/%.c
+$(TOBJ_DIR)/%.o: $(TETRIS_DIR)/%.c
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Компиляция тестового $(notdir $<)${RESET}\n"
 	$(G)$(CC) $(CFLAGS) $(COV_FLAGS) -c $< -o $@
 
@@ -175,7 +170,7 @@ clean-test-obj:
 	@if test -d $(TOBJ_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление каталога сборки тестов${RESET}\n"; $(RM) $(TOBJ_DIR); fi
 
 clean-test-lib:
-	@if test -f $(TLIB_BRICK); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление тестовой статической библиотеки движка${RESET}\n"; $(RM) $(TLIB_BRICK); fi
+	@if test -f $(TLIB_TETRIS); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление тестовой статической библиотеки движка${RESET}\n"; $(RM) $(TLIB_TETRIS); fi
 
 # Очистка исполняемого файла
 clean-exec:
