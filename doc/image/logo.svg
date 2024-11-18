@@ -1,0 +1,16 @@
+<svg id="tetris-logo" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0)">
+        <path class="shadow" d="m54.609978 0.3900235-36.172882 0.002344 0.0015 13.4543065 11.544713 0.0015 0.0059 11.530086 13.273513-0.0024-0.0059-11.554137 11.349476 0.01962zm-29.627827 18.3798975-24.5921275 7.67e-4v13.150286l11.5147445-0.01005-0.0097 22.699058h24.630354l-0.01436-13.074313-11.535095-0.0049z" style="fill:#333;stroke-linecap:round;stroke-linejoin:round;stroke-width:.780047;stroke:#1d1e1f" />
+        <path d="m20.169222 2.5089723v9.6110557h9.620309v-9.6110557zm-6.503244 18.0901927v9.611179h9.620307v-9.611179z" style="fill:#63cbe5;stroke-linecap:round;stroke-linejoin:round;stroke-width:.780047;stroke:#1d1e1f" />
+        <path d="m31.729972 13.828297v9.611179h9.620307v-9.611179z" style="fill:#f19a7b;stroke-linecap:round;stroke-linejoin:round;stroke-width:.780047;stroke:#1d1e1f" />
+        <path d="m31.730343 2.5089723v9.6110557h9.620306v-9.6110557zm-18.063502 29.4156717v9.61118h9.620308v-9.61118z" style="fill:#aed581;stroke-linecap:round;stroke-linejoin:round;stroke-width:.780047;stroke:#1d1e1f" />
+        <path d="m43.255323 2.5097121v9.6111799h9.62117v-9.6111799zm-29.586879 40.7576779v9.611179h9.620309v-9.611179z" style="fill:#f45a52;stroke-linecap:round;stroke-linejoin:round;stroke-width:.780047;stroke:#1d1e1f" />
+        <path d="m2.2879133 20.599165v9.611179h9.6204317v-9.611179z" style="fill:#feca5f;stroke-linecap:round;stroke-linejoin:round;stroke-width:.780047;stroke:#1d1e1f" />
+        <path d="m25.171596 43.269857v9.612413h9.620431v-9.612413z" style="fill:#9dd5c0;stroke-linecap:round;stroke-linejoin:round;stroke-width:.780047;stroke:#1d1e1f" />
+    </g>
+    <defs>
+        <clipPath id="clip0">
+            <rect width="55" height="55" fill="white" />
+        </clipPath>
+    </defs>
+</svg>

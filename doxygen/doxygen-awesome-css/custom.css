@@ -1,0 +1,142 @@
+.github-corner svg {
+    fill: var(--primary-light-color);
+    color: var(--page-background-color);
+    width: 72px;
+    height: 72px;
+}
+
+@media screen and (max-width: 767px) {
+    .github-corner svg {
+        width: 50px;
+        height: 50px;
+    }
+
+    #projectnumber {
+        margin-right: 22px;
+    }
+}
+
+.alter-theme-button {
+    display: inline-block;
+    cursor: pointer;
+    background: var(--primary-color);
+    color: var(--page-background-color) !important;
+    border-radius: var(--border-radius-medium);
+    padding: var(--spacing-small) var(--spacing-medium);
+    text-decoration: none;
+}
+
+.alter-theme-button:hover {
+    background: var(--primary-dark-color);
+}
+
+html.dark-mode .darkmode_inverted_image img,
+/* < doxygen 1.9.3 */
+html.dark-mode .darkmode_inverted_image object[type="image/svg+xml"]
+
+/* doxygen 1.9.3 */
+    {
+    filter: brightness(89%) hue-rotate(180deg) invert();
+}
+
+.bordered_image {
+    border-radius: var(--border-radius-small);
+    border: 1px solid var(--separator-color);
+    display: inline-block;
+    overflow: hidden;
+}
+
+html.dark-mode .bordered_image img,
+/* < doxygen 1.9.3 */
+html.dark-mode .bordered_image object[type="image/svg+xml"]
+
+/* doxygen 1.9.3 */
+    {
+    border-radius: var(--border-radius-small);
+}
+
+.title_screenshot {
+    filter: drop-shadow(0px 3px 10px rgba(0, 0, 0, 0.22));
+    max-width: 500px;
+    margin: var(--spacing-large) 0;
+}
+
+.title_screenshot .caption {
+    display: none;
+}
+
+html {
+    /* primary theme color. This will affect the entire websites color scheme: links, arrows, labels, ... */
+    --primary-color: #bd93f9;
+    --primary-dark-color: #9270e4;
+    --primary-light-color: #9270e4;
+
+    /* page base colors */
+    --page-background-color: #ffffff;
+    --page-foreground-color: #2f4153;
+    --page-secondary-foreground-color: #6f7e8e;
+
+    /* color for all separators on the website: hr, borders, ... */
+    --separator-color: #bd93f965;
+
+    /* border radius for all rounded components. Will affect many components, like dropdowns, memitems, codeblocks, ... */
+    --border-radius-large: 22px;
+    --border-radius-small: 9px;
+    --border-radius-medium: 14px;
+
+    /* default spacings. Most components reference these values for spacing, to provide uniform spacing on the page. */
+    --spacing-small: 8px;
+    --spacing-medium: 14px;
+    --spacing-large: 19px;
+
+    --top-height: 130px;
+}
+
+html.dark-mode {
+    color-scheme: dark;
+
+    --primary-color: #bd93f9;
+    --primary-dark-color: #9270e4;
+    --primary-light-color: #9270e4;
+    --primary-lighter-color: #191e21;
+    --primary-lightest-color: #191a1c;
+
+    --page-background-color: #21222c;
+    --page-foreground-color: #d2dbde;
+    --page-secondary-foreground-color: #859399;
+    --separator-color: #3a3246;
+    --side-nav-background: #282a36;
+    --side-nav-foreground: #f8f8f2;
+    --toc-background: #282A36;
+    --searchbar-background: var(--page-background-color);
+}
+
+#projectlogo img {
+    -webkit-filter: drop-shadow(0 0 4px var(--page-foreground-color));
+    filter: drop-shadow(0 0 4px var(--page-foreground-color));
+    max-height: 56px;
+    width: 55px;
+    height: 55px;
+    margin-right: var(--spacing-small);
+}
+
+/* #doc-content {
+    padding-top: 0;
+} */
+
+a:hover {
+    text-shadow: 0 0 4px;
+}
+
+/* .clipboard {
+    display: none;
+} */
+
+div.header .title {
+    padding-top: 10px;
+    margin: 0;
+}
+
+div.header .summary {
+    float: inline-end;
+}

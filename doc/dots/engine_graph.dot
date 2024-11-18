@@ -1,0 +1,32 @@
+digraph StateMachine {
+    graph [bgcolor = "transparent"; rankdir = "LR"; concentrate = true;];
+    edge [arrowhead = open; arrowtail = open; fontsize = 12; color = "#008080"; labelfontsize = 12;];
+    node [colorscheme = pastel; shape = box; fontsize = 12; height = 0.4; width = 1.1; color = "black"; style = "filled, rounded";];
+    
+    State0 -> StateInit [tooltip = "EventInit: Начальная инициализация игры";];
+    StateInit -> StateInit [tooltip = "Действия меню: EventRight\nEventLeft\nEventUp\nEventDown\nEventStart";];
+    StateInit -> StateSpawn [tooltip = "EventStart: Начало игры";];
+    StateAction -> StateAction [tooltip = "EventRight, EventLeft, EventDown, EventAction: Действия игрока";];
+    StateAction -> StateShift [tooltip = "->StateShift\nEventTick: Сдвиг по таймеру\n->StateAction\nEventPlaceFree: Фигура размещена, возврат в состояние Action";];
+    StateAction -> StateIdle [tooltip = "EventPause: переключение паузы";];
+    StateAction -> StateInit [tooltip = "EventTerminate: Завершение игры";];
+    StateShift -> StateAction [tooltip = "->StateShift\nEventTick: Сдвиг по таймеру\n->StateAction\nEventPlaceFree: Фигура размещена, возврат в состояние Action";];
+    StateIdle -> StateAction [tooltip = "EventPause: переключение паузы";];
+    StateIdle -> StateInit [tooltip = "EventTerminate: Завершение игры";];
+    StateShift -> StateSpawn [tooltip = "EventTouchdown: Фигура коснулась земли или другой фигуры";];
+    StateSpawn -> StateAction [tooltip = "EventPlaceFree: Фигура размещена, возврат в состояние Action";];
+    StateSpawn -> StateInit [tooltip = "EventTouchdown: Фигура не может быть размещена, завершение игры";];
+    
+    State0 [label = "State0";tooltip = "Начальное состояние (до инициализации)";fillcolor = "lightblue";];
+    subgraph {
+        rank = same;
+        StateInit [label = "StateInit";tooltip = "Инициализированное состояние (например, экран выбора настроек перед игрой)";fillcolor = "lightgreen";];
+        StateIdle [label = "StateIdle";tooltip = "Бездействие (игра на паузе)";fillcolor = "lightyellow";];
+    }
+    subgraph {
+        rank = same;
+        StateAction [label = "StateAction";tooltip = "Состояние обработки действий пользователя";fillcolor = "lightcoral";];
+        StateSpawn [label = "StateSpawn";tooltip = "Появление новой фигуры";fillcolor = "lightpink";];
+    }
+    StateShift [label = "StateShift";tooltip = "Состояние сдвига";fillcolor = "lightsalmon";];
+}
