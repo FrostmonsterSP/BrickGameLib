@@ -77,12 +77,10 @@ ifneq ($(DOXYPATH),)
 DOXYGEN=$(DOXYPATH)
 endif
 
-.PHONY: test libs
+.PHONY: test build
 
 # Правило по умолчанию
-all: test libs
-
-libs: $(LIB_TETRIS)
+all: test build
 
 # Создание директорий для объектных файлов, библиотек и исполняемого файла
 $(OBJ_DIR):
@@ -172,10 +170,6 @@ clean-test-obj:
 clean-test-lib:
 	@if test -f $(TLIB_TETRIS); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление тестовой статической библиотеки движка${RESET}\n"; $(RM) $(TLIB_TETRIS); fi
 
-# Очистка исполняемого файла
-clean-exec:
-	@if test -f $(EXEC); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление исполняемого файла${RESET}\n"; $(RM) $(EXEC); fi
-
 # Очистка каталога установки
 clean-bin:
 	@if test -d $(BIN_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление каталога установки${RESET}\n"; $(RM) $(BIN_DIR); fi
@@ -209,7 +203,7 @@ gcov_report: test $(GCOV_REPORT)
 	@printf "${GREEN}${BOLD}=>${RESET}${GREEN} Открытие отчёта о покрытии тестов${RESET}\n"
 	$(G)$(OPEN_CMD) $(GCOV_REPORT)
 
-build: $(EXEC)
+build: $(LIB_TETRIS)
 
 # Цель install
 install: $(BIN_DIR) build
