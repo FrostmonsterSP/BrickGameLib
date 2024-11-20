@@ -20,10 +20,6 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define FIELD_HEIGHT 20  ///< Высота игрового поля в клетках
 #define FIELD_WIDTH 10  ///< Ширина игрового поля в клетках
 
@@ -185,9 +181,5 @@ void userInput(UserAction_t action);
  * состоянии игры.
  */
 const GameInfo_t *updateCurrentState(void);
-
-#ifdef __cplusplus
-} // extern "C"
-#endif
 
 #endif  // ENGINE_H
