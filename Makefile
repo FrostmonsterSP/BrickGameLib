@@ -1,5 +1,5 @@
 PROJECT_NAME:=brick_game_lib
-PROJECT_VER:=2.0.1
+PROJECT_VER:=2.2
 
 # Компилятор и флаги
 CC=gcc
