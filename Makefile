@@ -41,8 +41,10 @@ TTETRIS_OBJS=$(patsubst $(TETRIS_DIR)/%.c, $(TOBJ_DIR)/%.o, $(TETRIS_SRCS))
 TGUI_OBJS=$(patsubst $(GUI_DIR)/%.c, $(TOBJ_DIR)/%.o, $(GUI_SRCS))
 
 # Исполняемый файл и библиотеки
-LIB_TETRIS=$(LIB_DIR)/libtetris.a
-TLIB_TETRIS=$(LIB_DIR)/libtetristest.a
+LIB_TETRIS_A=$(LIB_DIR)/libtetris.a
+TLIB_TETRIS_A=$(LIB_DIR)/libtetristest.a
+LIB_TETRIS_SO=$(LIB_DIR)/libtetris.so
+TLIB_TETRIS_SO=$(LIB_DIR)/libtetristest.so
 LIB_DIR_LINK=-L$(LIB_DIR)
 DISTFILE=$(PROJECT_NAME)-$(PROJECT_VER).${shell uname -m}.tar.gz
 
@@ -77,7 +79,7 @@ ifneq ($(DOXYPATH),)
 DOXYGEN=$(DOXYPATH)
 endif
 
-.PHONY: test build
+.PHONY: test build rebuild gcov_report dvi clean clean-test clean-test-obj clean-test-lib clean-obj clean-lib clean-doc clean-report clean-dist purge everything rebuild-all
 
 # Правило по умолчанию
 all: test build
@@ -99,21 +101,21 @@ $(BIN_DIR):
 	@if test ! -d $(BIN_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога исполняемого файла${RESET}\n"; mkdir -p $(BIN_DIR); fi
 
 # Сборка тестов
-test: $(TOBJ_DIR) $(LIB_DIR) $(TGUI_OBJS) $(TLIB_TETRIS) $(TEST_OBJS)
+test: $(TOBJ_DIR) $(LIB_DIR) $(TGUI_OBJS) $(TLIB_TETRIS_A) $(TEST_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка тестов${RESET}\n"
 	$(G)$(CC) $(CFLAGS) $(COV_FLAGS) -o $@ $(TEST_OBJS) $(TGUI_OBJS) $(LIB_DIR_LINK) $(TEST_LIBS)
 	@printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Запуск тестов${RESET}\n"
 	$(G)./$@
 
 # Создание статической библиотеки движка
-$(LIB_TETRIS): $(LIB_DIR) $(OBJ_DIR) $(TETRIS_OBJS)
+$(LIB_TETRIS_A): $(LIB_DIR) $(OBJ_DIR) $(TETRIS_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка статической библиотеки движка $(notdir $@)${RESET}\n"
 	$(G)$(AR) $@ $(TETRIS_OBJS)
 
-# Создание статической библиотеки GUI
-$(LIB_GUI_OBJ): $(GUI_OBJS)
-	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка статической библиотеки интерфейса $(notdir $@)${RESET}\n"
-	$(G)$(AR) $@ $^
+# Создание динамической библиотеки движка
+$(LIB_TETRIS_SO): $(LIB_DIR) $(OBJ_DIR) $(TETRIS_OBJS)
+	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка динамической библиотеки движка $(notdir $@)${RESET}\n"
+	$(G)$(CC) $(CFLAGS) -shared -o $@ $(TETRIS_OBJS)
 
 # Компиляция объектных файлов
 $(OBJ_DIR)/%.o: $(TETRIS_DIR)/%.c
@@ -129,7 +131,7 @@ $(OBJ_DIR)/%.o: %.c
 	$(G)$(CC) $(CFLAGS) -c $< -o $@
 
 # Создание статической библиотеки движка для тестов
-$(TLIB_TETRIS): $(TTETRIS_OBJS)
+$(TLIB_TETRIS_A): $(TTETRIS_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка тестовой статической библиотеки движка $(notdir $@)${RESET}\n"
 	$(G)$(AR) $@ $^
 
@@ -168,7 +170,7 @@ clean-test-obj:
 	@if test -d $(TOBJ_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление каталога сборки тестов${RESET}\n"; $(RM) $(TOBJ_DIR); fi
 
 clean-test-lib:
-	@if test -f $(TLIB_TETRIS); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление тестовой статической библиотеки движка${RESET}\n"; $(RM) $(TLIB_TETRIS); fi
+	@if test -f $(TLIB_TETRIS_A); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление тестовой статической библиотеки движка${RESET}\n"; $(RM) $(TLIB_TETRIS_A); fi
 
 # Очистка библиотек
 clean-lib:
@@ -196,7 +198,7 @@ gcov_report: test $(GCOV_REPORT)
 	@printf "${GREEN}${BOLD}=>${RESET}${GREEN} Открытие отчёта о покрытии тестов${RESET}\n"
 	$(G)$(OPEN_CMD) $(GCOV_REPORT)
 
-build: $(LIB_TETRIS)
+build: $(LIB_TETRIS_A) $(LIB_TETRIS_SO)
 
 # Цель install
 install: $(BIN_DIR) build
