@@ -127,8 +127,9 @@ void putCurrFig(void) {
       int field_x = CurrFigure.x + j;
       unsigned cell_on_field_y = field_y < FIELD_HEIGHT && field_y >= 0;
       unsigned cell_on_field_x = field_x < FIELD_WIDTH && field_x >= 0;
-      if (getCurrFigCell(i, j) == 1 && cell_on_field_y && cell_on_field_x) {
-        setFieldCell(field_y, field_x, 1);
+      unsigned curr_fig_cell = getCurrFigCell(i, j);
+      if (curr_fig_cell && cell_on_field_y && cell_on_field_x) {
+        setFieldCell(field_y, field_x, curr_fig_cell);
       }
     }
   }
