@@ -333,7 +333,9 @@ void setHighScore(void) {
   int high_score = 0;
   FILE *fp = fopen(getScoreFilePath(), "r");
   if (fp != NULL) {
-    fread(&high_score, sizeof(int), T, fp);
+    if (fread(&high_score, sizeof(int), 1, fp) != 1) {
+      printf("Error fread");
+    }
     fclose(fp);
     high_score = high_score < 0 ? 0 : high_score;
   }
