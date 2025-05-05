@@ -34,6 +34,10 @@
    : lines == 3 ? THREE_LINES \
                 : FOUR_LINES)
 
+#define TICK_TIME 5  ///< Скорость таймера
+#define DEFAULT_SPEED \
+  (1250 / TICK_TIME)  ///< Скорость игры по умолчанию (мс между шагами)
+
 /**
  * @brief Состояния игры
  *
