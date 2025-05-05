@@ -137,5 +137,6 @@ dkms.conf
 compile_commands.json
 .clang-format
 .clangd
-libs/
+lib/
+obj/
 git-push.sh

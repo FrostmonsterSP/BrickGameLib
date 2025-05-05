@@ -1,5 +1,5 @@
 PROJECT_NAME:=brick_game_lib
-PROJECT_VER:=2.2
+PROJECT_VER:=2.3
 
 # Компилятор и флаги
 CC=gcc
@@ -19,7 +19,7 @@ COV_FLAGS=-fprofile-arcs -ftest-coverage
 OBJ_DIR=obj
 TOBJ_DIR=$(OBJ_DIR)/test
 TETRIS_DIR=src/tetris
-LIB_DIR=libs
+LIB_DIR=lib
 TEST_DIR=tests
 REPORT_DIR=report
 BIN_DIR=bin
