@@ -2,7 +2,7 @@
 #include <engine.h>
 
 #include "../brick_game/tetris/current_figure.h"
-#include "../brick_game/tetris/private.h"
+#include "../tetris/private.h"
 
 static inline void fillLine(int val) {
   int row_indx = -1;

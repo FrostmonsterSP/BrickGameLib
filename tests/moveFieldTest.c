@@ -2,7 +2,7 @@
 #include <engine.h>
 #include <tests.h>
 
-#include "../brick_game/tetris/private.h"
+#include "../tetris/private.h"
 
 START_TEST(valid) {
   setFieldCell(0, 0, 1);

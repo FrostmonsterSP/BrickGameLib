@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <tests.h>
 
-#include "../brick_game/tetris/private.h"
+#include "../tetris/private.h"
 
 START_TEST(file_not_exists) {
   remove(getScoreFilePath());

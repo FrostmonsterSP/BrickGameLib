@@ -1,7 +1,7 @@
 #include <check.h>
 #include <tests.h>
 
-#include "../brick_game/tetris/private.h"
+#include "../tetris/private.h"
 #include "engine.h"
 
 START_TEST(level0) {

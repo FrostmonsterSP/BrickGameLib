@@ -1,7 +1,7 @@
 #include <check.h>
 #include <engine.h>
 
-#include "../brick_game/tetris/private.h"
+#include "../tetris/private.h"
 
 START_TEST(no_matching_state) {
   setGameState(StateInit);

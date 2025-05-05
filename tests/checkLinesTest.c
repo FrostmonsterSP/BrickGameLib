@@ -1,8 +1,8 @@
 #include <check.h>
 #include <engine.h>
-#include <tests.h>
 
-#include "../brick_game/tetris/private.h"
+#include "../tetris/private.h"
+#include "tests.h"
 
 START_TEST(empty_field) {
   setGameLevel(1);

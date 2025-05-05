@@ -2,7 +2,7 @@
 #include <engine.h>
 #include <interface.h>
 
-#include "../brick_game/tetris/private.h"
+#include "../tetris/private.h"
 
 START_TEST(initial_state) {
   startInterface();
