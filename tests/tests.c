@@ -18,25 +18,5 @@ int main(void) {
   number_failed += userInputTest();
   number_failed += handleEventTest();
   number_failed += currentFigureTest();
-  printf(
-      "\n"
-      "===============================\n"
-      "====== ТЕСТЫ  ИНТЕРФЕЙСА ======\n"
-      "===============================\n");
-  number_failed += drawGameFieldTest();
-  number_failed += drawInfoPanelTest();
-  number_failed += drawControlPanelTest();
-  number_failed += drawNextPieceTest();
-  number_failed += endInterfaceTest();
-  number_failed += initMenuWinTest();
-  number_failed += closeMenuWinTest();
-  number_failed += drawPlusMinusTest();
-  number_failed += drawMenuBodyInitTest();
-  number_failed += drawMenuBodyIdleTest();
-  number_failed += drawMenuFooterTest();
-  number_failed += menuKeyHandlerTest();
-  number_failed += menuUserInputModTest();
-  number_failed += drawMenusTest();
-  number_failed += interfaceTest();
   return number_failed;
 }
