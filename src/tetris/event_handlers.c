@@ -33,8 +33,8 @@ static StateTransition_t StateTable[] = {
 void handleEvent(int event) {
   unsigned i = 0;
   unsigned max_index = getTransitionTableSize();
-  GameState_t current_state = getGameState();
-  while (i < max_index && (current_state != StateTable[i].currentState ||
+  int current_state = getGameState();
+  while (i < max_index && (current_state != (int)StateTable[i].currentState ||
                            (GameEvent_t)event != StateTable[i].event)) {
     i++;
   }

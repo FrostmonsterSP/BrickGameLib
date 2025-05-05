@@ -12,9 +12,10 @@ START_TEST(file_not_exists) {
   FILE *fp = fopen(getScoreFilePath(), "r");
   ck_assert_ptr_nonnull(fp);
   int high_score = 0;
-  fread(&high_score, sizeof(int), 1, fp);
-  ck_assert_int_eq(high_score, 100);
+  unsigned long readd = fread(&high_score, sizeof(int), 1, fp);
   fclose(fp);
+  ck_assert_uint_gt(readd, 0);
+  ck_assert_int_eq(high_score, 100);
   remove(getScoreFilePath());
 }
 END_TEST
@@ -30,9 +31,10 @@ START_TEST(file_exists_not_updated) {
   saveHighScore();
   fp = fopen(getScoreFilePath(), "r");
   ck_assert_ptr_nonnull(fp);
-  fread(&high_score, sizeof(int), 1, fp);
-  ck_assert_int_eq(high_score, 100);
+  unsigned long readd = fread(&high_score, sizeof(int), 1, fp);
   fclose(fp);
+  ck_assert_uint_gt(readd, 0);
+  ck_assert_int_eq(high_score, 100);
   remove(getScoreFilePath());
 }
 END_TEST
@@ -48,9 +50,11 @@ START_TEST(file_exists_updated) {
   saveHighScore();
   fp = fopen(getScoreFilePath(), "r");
   ck_assert_ptr_nonnull(fp);
-  fread(&high_score, sizeof(int), 1, fp);
-  ck_assert_int_eq(high_score, 150);
+  unsigned long readd = fread(&high_score, sizeof(int), 1, fp);
   fclose(fp);
+  ck_assert_uint_gt(readd, 0);
+  ck_assert_int_eq(high_score, 150);
+
   remove(getScoreFilePath());
 }
 END_TEST

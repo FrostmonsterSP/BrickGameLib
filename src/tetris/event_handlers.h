@@ -14,6 +14,7 @@
 #define EVENT_HANDLERS_H
 
 #include <engine.h>
+#include "private.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
