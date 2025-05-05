@@ -1,8 +1,8 @@
 #include <check.h>
 #include <engine.h>
 
-#include "../brick_game/tetris/current_figure.h"
-#include "../tetris/private.h"
+#include "tetris/current_figure.h"
+#include "tetris/private.h"
 
 static inline void fillLine(int val) {
   int row_indx = -1;

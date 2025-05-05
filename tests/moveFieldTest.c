@@ -1,8 +1,8 @@
 #include <check.h>
 #include <engine.h>
-#include <tests.h>
 
-#include "../tetris/private.h"
+#include "tests.h"
+#include "tetris/private.h"
 
 START_TEST(valid) {
   setFieldCell(0, 0, 1);

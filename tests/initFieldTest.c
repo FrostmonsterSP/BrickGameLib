@@ -1,8 +1,8 @@
 #include <check.h>
-#include <tests.h>
+#include <engine.h>
 
-#include "../tetris/private.h"
-#include "engine.h"
+#include "tests.h"
+#include "tetris/private.h"
 
 START_TEST(level0) {
   setGameLevel(1);

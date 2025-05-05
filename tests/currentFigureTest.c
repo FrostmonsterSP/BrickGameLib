@@ -1,8 +1,8 @@
 #include <check.h>
 #include <engine.h>
 
-#include "../brick_game/tetris/current_figure.h"
-#include "../tetris/private.h"
+#include "tetris/current_figure.h"
+#include "tetris/private.h"
 
 START_TEST(setLeftEdge_noEmptyColumns) {
   setCurrFigType(0);

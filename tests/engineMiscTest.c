@@ -1,8 +1,8 @@
 #include <check.h>
 #include <engine.h>
-#include <tests.h>
 
-#include "../tetris/private.h"
+#include "tests.h"
+#include "tetris/private.h"
 
 START_TEST(incGameLevel_less_than_max) {
   setGameLevel(1);

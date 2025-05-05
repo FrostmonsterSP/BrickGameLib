@@ -1,8 +1,8 @@
 #include <check.h>
 #include <stdio.h>
-#include <tests.h>
 
-#include "../tetris/private.h"
+#include "tests.h"
+#include "tetris/private.h"
 
 START_TEST(exists) {
   FILE *fp = fopen(getScoreFilePath(), "w");
