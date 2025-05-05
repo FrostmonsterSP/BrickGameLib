@@ -12,7 +12,7 @@ G=@
 RM=rm -rf
 CFLAGS+=-Wall -Werror -Wextra -pedantic -std=c11 -Isrc -O2 -fPIC
 CLIBS=-lbrick -lncurses
-TEST_LIBS=-lcheck -lbricktest -lncurses -lgcov -lm -lsubunit
+TEST_LIBS=-lcheck -ltetristest -lncurses -lgcov -lm -lsubunit
 COV_FLAGS=-fprofile-arcs -ftest-coverage
 
 # Папки
