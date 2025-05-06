@@ -67,7 +67,7 @@ typedef struct {
  *
  * @param action Действие пользователя, которое нужно обработать.
  */
-void userInput(int action);
+void userInput(UserAction_t action);
 
 /**
  * @brief Обновление текущего состояния игры

@@ -280,7 +280,7 @@ const GameInfo_t *updateCurrentState(void) {
   return &GameInfo;
 }
 
-void userInput(int action) {
+void userInput(UserAction_t action) {
   switch (action) {
     case Start:
       handleEvent(EventStart);
