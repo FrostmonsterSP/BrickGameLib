@@ -1,5 +1,5 @@
 PROJECT_NAME:=brick_game_lib
-PROJECT_VER:=2.2
+PROJECT_VER:=2.3
 
 # Компилятор и флаги
 CC=gcc
@@ -12,14 +12,14 @@ G=@
 RM=rm -rf
 CFLAGS+=-Wall -Werror -Wextra -pedantic -std=c11 -Isrc -O2 -fPIC
 CLIBS=-lbrick -lncurses
-TEST_LIBS=-lcheck -lbricktest -lncurses -lgcov -lm -lsubunit
+TEST_LIBS=-lcheck -ltetristest -lncurses -lgcov -lm -lsubunit
 COV_FLAGS=-fprofile-arcs -ftest-coverage
 
 # Папки
 OBJ_DIR=obj
 TOBJ_DIR=$(OBJ_DIR)/test
 TETRIS_DIR=src/tetris
-LIB_DIR=libs
+LIB_DIR=lib
 TEST_DIR=tests
 REPORT_DIR=report
 BIN_DIR=bin
