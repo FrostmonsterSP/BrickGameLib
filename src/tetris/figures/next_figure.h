@@ -22,8 +22,4 @@ int getNextFigType(void);
  */
 void newNextFigure(void);
 
-int getNextFigType(void);
-int getNextFigRotation(void);
-
-
 #endif // CURRENT_FIGURE_H
