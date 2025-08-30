@@ -15,9 +15,21 @@
 
 #include <engine.h>
 
+#include "tetris/private.h"
+
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+
+/**
+ * @brief Обработчик событий игры.
+ *
+ * Функция выбирает соответствующий переход по таблице состояний
+ * StateTable и выполняет соответствующую функцию действия.
+ *
+ * @param event Событие игры (тип GameEvent_t, 0-12).
+ */
+void handleEvent(int event);
 
 /**
  * @brief Структура, описывающая переход состояний конечного автомата.
@@ -110,12 +122,5 @@ void handleEventDrop(void);
  * помещает ее на поле и сбрасывает таймер.
  */
 void handleEventTouchdown(void);
-
-/**
- * @brief Возвращает размер таблицы переходов состояний.
- *
- * @return Количество элементов в массиве StateTransition_t.
- */
-int getTransitionTableSize(void);
 
 #endif
