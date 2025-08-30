@@ -139,3 +139,4 @@ compile_commands.json
 .clangd
 libs/
 git-push.sh
+venv/
