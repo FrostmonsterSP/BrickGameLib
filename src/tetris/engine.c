@@ -12,11 +12,8 @@
 #include <string.h>
 #include <time.h>
 
-#include "state/state.h"
-#include "figures/current_figure.h"
-#include "private.h"
-#include "figures/figures.h"
-#include "figures/next_figure.h"
+#include "tetris/private.h"
+#include "tetris/figures/figures.h"
 #include "tetris/event_handlers/event_handlers.h"
 
 /**

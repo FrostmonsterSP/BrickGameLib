@@ -14,9 +14,9 @@
 #define EVENT_HANDLERS_H
 
 #include <engine.h>
-#include "private.h"
 
 #include "tetris/private.h"
+#include "tetris/state/state.h"
 
 #ifndef NULL
 #define NULL ((void*)0)

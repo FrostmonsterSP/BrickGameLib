@@ -3,6 +3,9 @@
 
 #include <engine.h>
 
+#include "next_figure.h"
+#include "current_figure.h"
+
 /**
  * @brief Возвращает указатель на требуемую фигуру определённого типа и вращения
  *
