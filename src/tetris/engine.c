@@ -12,228 +12,12 @@
 #include <string.h>
 #include <time.h>
 
-#include "current_figure.h"
+#include "state/state.h"
+#include "figures/current_figure.h"
 #include "private.h"
-
-/**
- * @brief Массив, содержащий информацию о фигурах игры в различных состояниях
- * поворота.
- *
- * Каждая фигура представлена как двумерный массив 4x4, где 1 — это клетка
- * фигуры, а 0 — пустая клетка. Фигуры поворачиваются на 90 градусов по часовой
- * стрелке.</br>
- * Размеры:
- * - FIGURE_CNT: количество типов фигур (7 фигур).
- * - FIGURE_ROUNDS: количество возможных поворотов для каждой фигуры (4
- * поворота).
- */
-static int **Figures[FIGURE_CNT][FIGURE_ROUNDS] = {
-    // clang-format off
-    /* Линия (I-образная фигура) */
-    {/* Поворот 0 */
-     (int *[]){
-         (int[]){0, 1, 0, 0},
-         (int[]){0, 1, 0, 0},
-         (int[]){0, 1, 0, 0},
-         (int[]){0, 1, 0, 0}
-     },
-     /* Поворот 90 */
-     (int *[]){
-         (int[]){0, 0, 0, 0},
-         (int[]){1, 1, 1, 1},
-         (int[]){0, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 180 */
-     (int *[]){
-         (int[]){0, 1, 0, 0},
-         (int[]){0, 1, 0, 0},
-         (int[]){0, 1, 0, 0},
-         (int[]){0, 1, 0, 0}
-     },
-     /* Поворот 270 */
-     (int *[]){
-         (int[]){0, 0, 0, 0},
-         (int[]){1, 1, 1, 1},
-         (int[]){0, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     }},
-    /* Обратная L-образная фигура (J-образная) */
-    {/* Поворот 0 */
-     (int *[]){
-         (int[]){2, 0, 0, 0},
-         (int[]){2, 2, 2, 0},
-         (int[]){0, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 90 */
-     (int *[]){
-         (int[]){0, 2, 2, 0},
-         (int[]){0, 2, 0, 0},
-         (int[]){0, 2, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 180 */
-     (int *[]){
-         (int[]){0, 0, 0, 0},
-         (int[]){2, 2, 2, 0},
-         (int[]){0, 0, 2, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 270 */
-     (int *[]){
-         (int[]){0, 2, 0, 0},
-         (int[]){0, 2, 0, 0},
-         (int[]){2, 2, 0, 0},
-         (int[]){0, 0, 0, 0}
-     }},
-    /* L-образная фигура */
-    {/* Поворот 0 */
-     (int *[]){
-         (int[]){0, 0, 3, 0},
-         (int[]){3, 3, 3, 0},
-         (int[]){0, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 90 */
-     (int *[]){
-         (int[]){0, 3, 0, 0},
-         (int[]){0, 3, 0, 0},
-         (int[]){0, 3, 3, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 180 */
-     (int *[]){
-         (int[]){0, 0, 0, 0},
-         (int[]){3, 3, 3, 0},
-         (int[]){3, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 270 */
-     (int *[]){
-         (int[]){3, 3, 0, 0},
-         (int[]){0, 3, 0, 0},
-         (int[]){0, 3, 0, 0},
-         (int[]){0, 0, 0, 0}
-     }},
-    /* Квадрат (O-образная фигура) */
-    {/* Поворот 0 */
-     (int *[]){
-         (int[]){0, 4, 4, 0},
-         (int[]){0, 4, 4, 0},
-         (int[]){0, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 90 */
-     (int *[]){
-         (int[]){0, 4, 4, 0},
-         (int[]){0, 4, 4, 0},
-         (int[]){0, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 180 */
-     (int *[]){
-         (int[]){0, 4, 4, 0},
-         (int[]){0, 4, 4, 0},
-         (int[]){0, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 270 */
-     (int *[]){
-         (int[]){0, 4, 4, 0},
-         (int[]){0, 4, 4, 0},
-         (int[]){0, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     }},
-    /* T-образная фигура */
-    {/* Поворот 0 */
-     (int *[]){
-         (int[]){0, 5, 0, 0},
-         (int[]){5, 5, 5, 0},
-         (int[]){0, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 90 */
-     (int *[]){
-         (int[]){0, 5, 0, 0},
-         (int[]){0, 5, 5, 0},
-         (int[]){0, 5, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 180 */
-     (int *[]){
-         (int[]){0, 0, 0, 0},
-         (int[]){5, 5, 5, 0},
-         (int[]){0, 5, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 270 */
-     (int *[]){
-         (int[]){0, 5, 0, 0},
-         (int[]){5, 5, 0, 0},
-         (int[]){0, 5, 0, 0},
-         (int[]){0, 0, 0, 0}
-     }},
-    /* Z-образная фигура */
-    {/* Поворот 0 */
-     (int *[]){
-         (int[]){6, 6, 0, 0},
-         (int[]){0, 6, 6, 0},
-         (int[]){0, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 90 */
-     (int *[]){
-         (int[]){0, 6, 0, 0},
-         (int[]){6, 6, 0, 0},
-         (int[]){6, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 180 */
-     (int *[]){
-         (int[]){6, 6, 0, 0},
-         (int[]){0, 6, 6, 0},
-         (int[]){0, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 270 */
-     (int *[]){
-         (int[]){0, 6, 0, 0},
-         (int[]){6, 6, 0, 0},
-         (int[]){6, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     }},
-    /* Обратная Z-образная фигура (S-образная) */
-    {/* Поворот 0 */
-     (int *[]){
-         (int[]){0, 7, 7, 0},
-         (int[]){7, 7, 0, 0},
-         (int[]){0, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 90 */
-     (int *[]){
-         (int[]){7, 0, 0, 0},
-         (int[]){7, 7, 0, 0},
-         (int[]){0, 7, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 180 */
-     (int *[]){
-         (int[]){0, 7, 7, 0},
-         (int[]){7, 7, 0, 0},
-         (int[]){0, 0, 0, 0},
-         (int[]){0, 0, 0, 0}
-     },
-     /* Поворот 270 */
-     (int *[]){
-         (int[]){7, 0, 0, 0},
-         (int[]){7, 7, 0, 0},
-         (int[]){0, 7, 0, 0},
-         (int[]){0, 0, 0, 0}
-     }}
-    // clang-format on
-};
+#include "figures/figures.h"
+#include "figures/next_figure.h"
+#include "tetris/event_handlers/event_handlers.h"
 
 /**
  * @brief Структура, содержащая текущую информацию об игре.
@@ -256,58 +40,34 @@ static GameInfo_t GameInfo = {0};
  */
 static int Timer = DEFAULT_SPEED;
 
-const GameInfo_t *updateCurrentState(void) {
-  switch (GameInfo.state) {
-    case State0:
-      handleEvent(EventInit);
-      break;
-    case StateShift:
-    case StateSpawn:
-      if (!checkNextLine()) {
-        handleEvent(EventTouchdown);
-      } else {
-        handleEvent(EventPlaceFree);
-      }
-      break;
-    default:
-      break;
-  }
-  if (Timer > 0) {
-    Timer--;
-  } else {
-    handleEvent(EventTick);
-  }
-  return &GameInfo;
-}
-
 void userInput(UserAction_t action) {
   switch (action) {
-    case Start:
-      handleEvent(EventStart);
-      break;
-    case Pause:
-      handleEvent(EventPause);
-      break;
-    case Terminate:
-      handleEvent(EventTerminate);
-      break;
-    case Left:
-      handleEvent(EventLeft);
-      break;
-    case Right:
-      handleEvent(EventRight);
-      break;
-    case Up:
-      handleEvent(EventUp);
-      break;
-    case Down:
-      handleEvent(EventDown);
-      break;
-    case Action:
-      handleEvent(EventAction);
-      break;
-    default:
-      break;
+  case Start:
+    handleEvent(EventStart);
+    break;
+  case Pause:
+    handleEvent(EventPause);
+    break;
+  case Terminate:
+    handleEvent(EventTerminate);
+    break;
+  case Left:
+    handleEvent(EventLeft);
+    break;
+  case Right:
+    handleEvent(EventRight);
+    break;
+  case Up:
+    handleEvent(EventUp);
+    break;
+  case Down:
+    handleEvent(EventDown);
+    break;
+  case Action:
+    handleEvent(EventAction);
+    break;
+  default:
+    break;
   }
 }
 
@@ -350,6 +110,8 @@ void initField(void) {
   for (int y = 0; y < FIELD_HEIGHT; y++) {
     for (int x = 0; x < FIELD_WIDTH; x++) {
       GameInfo.field[y][x] = FIELD_HEIGHT - y < GameInfo.level ? rand() % 2 : 0;
+      GameInfo.field[y][x] =
+          GameInfo.field[y][x] == 0 ? 0 : rand() % FIGURE_CNT;
     }
   }
 }
@@ -398,7 +160,6 @@ void checkLines(void) {
 
 void setGameLevel(int score) { GameInfo.level = score; }
 void setGameSpeed(int speed) { GameInfo.speed = speed; }
-void setGameState(int state) { GameInfo.state = state; }
 void setGameScore(int score) { GameInfo.score = score; }
 void setGameHighScore(int score) { GameInfo.high_score = score; }
 
@@ -407,34 +168,34 @@ void resetTimer(void) {
 }
 
 void incGameLevel(void) {
-  if (GameInfo.level < MAX_LEVEL) GameInfo.level++;
+  if (GameInfo.level < MAX_LEVEL)
+    GameInfo.level++;
 }
 
 void incGameSpeed(void) {
-  if (GameInfo.speed < MAX_SPEED) GameInfo.speed++;
+  if (GameInfo.speed < MAX_SPEED)
+    GameInfo.speed++;
 }
 
 void decGameLevel(void) {
-  if (GameInfo.level > 1) GameInfo.level--;
+  if (GameInfo.level > 1)
+    GameInfo.level--;
 }
 
 void decGameSpeed(void) {
-  if (GameInfo.speed > 1) GameInfo.speed--;
+  if (GameInfo.speed > 1)
+    GameInfo.speed--;
 }
 
-int getGameState(void) { return GameInfo.state; }
 int getGameLevel(void) { return GameInfo.level; }
 int getGameSpeed(void) { return GameInfo.speed; }
 int getGameScore(void) { return GameInfo.score; }
 int getGameHighScore(void) { return GameInfo.high_score; }
 
-int getCurrFigCell(int y, int x) {
-  return Figures[getCurrFigType()][getCurrFigRotation()][y][x];
-}
+int getFieldCell(int y, int x) { return GameInfo.field[y][x]; }
 
 void setGameInfoNext(void) {
-  GameInfo.next = Figures[getNextFigType()][getNextFigRotation()];
+  GameInfo.next = getFigureType(getNextFigType(),getNextFigRotation());
 }
 
 void setFieldCell(int y, int x, int val) { GameInfo.field[y][x] = val; }
-int getFieldCell(int y, int x) { return GameInfo.field[y][x]; }

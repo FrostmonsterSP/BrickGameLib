@@ -15,16 +15,6 @@
 #define MAX_FILEPATH 256
 
 /**
- * @brief Обработчик событий игры.
- *
- * Функция выбирает соответствующий переход по таблице состояний
- * StateTable и выполняет соответствующую функцию действия.
- *
- * @param event Событие игры (тип GameEvent_t, 0-12).
- */
-void handleEvent(int event);
-
-/**
  * @brief Устанавливает лучший результат игры (high score)
  *
  * Функция считывает сохранённый лучший результат из файла "score.bin" и
@@ -154,7 +144,7 @@ void decGameLevel(void);
 void decGameSpeed(void);
 
 /**
- * @brief Получает текущее состояние игры
+ * @brief Сообщает текущее состояние игры
  *
  * @return Текущее состояние игры.
  */
@@ -223,27 +213,22 @@ void setFieldCell(int y, int x, int val);
  */
 int getFieldCell(int y, int x);
 
-/**
- * @brief Возвращает поворот следующей фигуры
- * @return поворот следующей фигуры (int 0-3)
- */
-int getNextFigRotation(void);
 
-/**
- * @brief Возвращает тип следующей фигуры
- * @return тип следующей фигуры (int 0-6)
- */
-int getNextFigType(void);
-
-/**
- * @brief Инициализирует следующую фигуру
- *
- * @details Функция генерирует случайный тип и поворот для следующей фигуры, а
- * затем вызывает setGameInfoNext() для установки указателя GameInfo.next на
- * двухмерный массив фигуры **Figures[][]
- */
-void newNextFigure(void);
 
 char *getScoreFilePath(void);
+
+/**
+ * @brief Устанавливает новое игровое состояние
+ * 
+ * @param newState Новое состояние игры (значение из перечисления GameState_t).
+ */
+void setGameState(int);
+
+/**
+ * @brief Возвращает текущее состояние игры
+ * 
+ * @return Текущее состояние игры (значение из перечисления GameState_t).
+ */
+int getGameState(void);
 
 #endif  // ENGINE_PRIVATE_H
