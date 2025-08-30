@@ -12,7 +12,10 @@
 
 #include <engine.h>
 
-#include "private.h"
+#include "current_figure.h"
+#include "figures.h"
+#include "next_figure.h"
+#include "tetris/private.h"
 
 /** Структура типа Figure_t для текущей фигуры  */
 static Figure_t CurrFigure = {0};
@@ -161,3 +164,7 @@ void setCurrFigType(int type) { CurrFigure.type = type; }
 void setCurrFigCoordX(int x) { CurrFigure.x = x; }
 void setCurrFigCoordY(int y) { CurrFigure.y = y; }
 void setCurrFigRotation(int rotation) { CurrFigure.rotation = rotation; }
+
+int getCurrFigCell(int y, int x) {
+  return (getFigureType(getCurrFigType(), getCurrFigRotation()))[y][x];
+}

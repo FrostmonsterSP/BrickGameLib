@@ -10,7 +10,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "private.h"
+#include "../private.h"
+#include "next_figure.h"
 
 static int NextFigureType = -1;  ///< Тип следующей фигуры
 static int NextFigureRotation = -1;  ///< Поворот следующей фигуры

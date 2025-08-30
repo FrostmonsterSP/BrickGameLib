@@ -217,6 +217,9 @@ void setCurrFigCoordY(int y);
  */
 void setCurrFigRotation(int rotation);
 
+int getCurrFigCell(int y, int x);
+
+
 /** @} */
 
 #endif
