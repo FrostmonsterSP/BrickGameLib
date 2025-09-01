@@ -70,7 +70,7 @@ typedef enum {
  * Содержит текущее состояние игрового поля, уровень, очки и другую информацию.
  */
 typedef struct {
-  int field[FIELD_HEIGHT][FIELD_WIDTH];  ///< Игровое поле
+  int **field;  ///< Игровое поле
   int **next;      ///< Указатель на следующую фигуру
   int score;       ///< Текущие очки
   int high_score;  ///< Рекорд
